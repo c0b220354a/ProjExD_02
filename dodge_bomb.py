@@ -100,6 +100,7 @@ def main():
         screen.blit(kk_img,kk_rct)  #練習3: 工科トンの移動
         bb_rct.move_ip(avx,avy)  #練習2 爆弾を移動させる
         yoko,tate = check_bound(bb_rct)
+        
         if not yoko:  # 横方向にはみ出たら
             vx *= -1
 
