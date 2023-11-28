@@ -31,9 +31,9 @@ def main():
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
-    kk_img2=pg.image.load("ex02/fig/8.png")  #泣いているこうかとん
+    kk_img2 = pg.image.load("ex02/fig/8.png")  #泣いているこうかとん
     kk_img2 = pg.transform.rotozoom(kk_img2, 0, 2.0)
-    kk_img_f=pg.transform.flip(kk_img,True,False)
+    kk_img_f = pg.transform.flip(kk_img,True,False)
     kk_imgs = {(+5,0):kk_img_f,  # 右方向のこうかとん
                (+5,-5):pg.transform.rotozoom(kk_img_f,45,1.0),  #右上方向のこうかとん
                (0,-5):pg.transform.rotozoom(kk_img_f,90,1.0),  #上方向のこうかとん
@@ -43,8 +43,8 @@ def main():
                (-5,0):kk_img,  # 左方向のこうかとん
                (-5,-5):pg.transform.rotozoom(kk_img,-45,1.0),  #左上方向のこうかとん
                }
-    kk_img=kk_imgs[+5,0]
-    bb_imags=[]
+    kk_img = kk_imgs[+5,0]
+    bb_imags = []
     bb_img = pg.Surface((20,20))  # 練習1:透明なSurfaceを作る
     bb_img.set_colorkey((0,0,0))
     pg.draw.circle(bb_img,(255,0,0),(10,10),10)  #練習1:透明なSurfaceの中に赤い円を作る
@@ -58,6 +58,7 @@ def main():
     vx,vy = +5,-5
     clock = pg.time.Clock()
     tmr = 0
+
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
@@ -69,13 +70,13 @@ def main():
             print("Game Over")
             return
         
-        key_lst=pg.key.get_pressed()
-        sum_mv=[0,0]
+        key_lst = pg.key.get_pressed()
+        sum_mv = [0,0]
 
         for k,tpl in delta.items():
             if key_lst[k]:  #練習3　キーが押されたら
-                sum_mv[0]+=tpl[0]
-                sum_mv[1]+=tpl[1]
+                sum_mv[0] += tpl[0]
+                sum_mv[1] += tpl[1]
 
         kk_0 = 0  #こうかとんの画像の切り替えに必要
         kk_1 = 0  #こうかとんの画像の切り替えに必要
@@ -95,7 +96,7 @@ def main():
         if check_bound(kk_rct) != (True,True):
             kk_rct.move_ip(-sum_mv[0],-sum_mv[1])
 
-        avx,avy=vx*accs[min(tmr//500,9)],vy*accs[min(tmr//500,9)]  #tmrの値に応じてスピードを決める
+        avx,avy = vx*accs[min(tmr//500,9)],vy*accs[min(tmr//500,9)]  #tmrの値に応じてスピードを決める
         screen.blit(kk_img,kk_rct)  #練習3: 工科トンの移動
         bb_rct.move_ip(avx,avy)  #練習2 爆弾を移動させる
         yoko,tate = check_bound(bb_rct)
