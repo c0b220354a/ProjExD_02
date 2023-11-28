@@ -1,6 +1,7 @@
 import sys
 import random
 import pygame as pg
+import time
 
 
 WIDTH, HEIGHT = 1600, 900
@@ -32,7 +33,7 @@ def main():
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
-    kk_img2=pg.image.load("ex02/fig/8.png")
+    kk_img2=pg.image.load("ex02/fig/8.png")  #泣いているこうかとん
     kk_img2 = pg.transform.rotozoom(kk_img2, 0, 2.0)
     kk_img_f=pg.transform.flip(kk_img,True,False)
     kk_imgs = {(+5,0):kk_img_f,  # 右方向のこうかとん
@@ -45,9 +46,12 @@ def main():
                (-5,-5):pg.transform.rotozoom(kk_img,-45,1.0),  #左上方向のこうかとん
                }
     kk_img=kk_imgs[+5,0]
-    bb_img = pg.Surface((20,20))  # 練習1:透明なSurfaceを作る
-    bb_img.set_colorkey((0,0,0))
-    pg.draw.circle(bb_img,(255,0,0),(10,10),10)  #練習1:透明なSurfaceの中に赤い円を作る
+    bb_imags=[]
+    for r in range(1,11):
+        bb_img = pg.Surface((20*r,20*r))  # 練習1:透明なSurfaceを作る
+        bb_img.set_colorkey((0,0,0))
+        pg.draw.circle(bb_img,(255,0,0),(10*r,10*r),10)  #練習1:透明なSurfaceの中に赤い円を作る
+        bb_imags.append(bb_img)
     bb_rct = bb_img.get_rect()  # 練習1: 爆弾surfaceを抽出
     kk_rct = kk_img.get_rect()  # 練習3: 工科とんを抽出
     kk_rct.center= 900,400
@@ -65,6 +69,7 @@ def main():
             screen.blit(kk_img2,kk_rct)
             pg.display.update()
             print("Game Over")
+            time.sleep(2)
             return
         
         key_lst=pg.key.get_pressed()
@@ -87,7 +92,9 @@ def main():
             kk_img = kk_imgs[kk_0, kk_1]  # kk_imgに切り替える画像を代入
 
         screen.blit(kk_img, kk_rct)
+        bb_img = bb_imags[min(tmr//500,9)]
         screen.blit(bg_img, [0, 0])
+        print(bb_img)
         kk_rct.move_ip(sum_mv[0],sum_mv[1])
 
         if check_bound(kk_rct) != (True,True):
