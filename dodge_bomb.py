@@ -54,7 +54,7 @@ def main():
     kk_rct.center= 900,400
     bb_rct.centerx = random.randint(0,WIDTH)
     bb_rct.centery = random.randint(0,HEIGHT)
-    accs = [a for a in range(1,11)]
+    accs = [a for a in range(1,11)]  # 加速度のリストを作る
     vx,vy = +5,-5
     clock = pg.time.Clock()
     tmr = 0
@@ -95,7 +95,7 @@ def main():
         if check_bound(kk_rct) != (True,True):
             kk_rct.move_ip(-sum_mv[0],-sum_mv[1])
 
-        avx,avy=vx*accs[min(tmr//500,9)],vy*accs[min(tmr//500,9)]
+        avx,avy=vx*accs[min(tmr//500,9)],vy*accs[min(tmr//500,9)]  #tmrの値に応じてスピードを決める
         screen.blit(kk_img,kk_rct)  #練習3: 工科トンの移動
         bb_rct.move_ip(avx,avy)  #練習2 爆弾を移動させる
         yoko,tate = check_bound(bb_rct)
@@ -108,7 +108,7 @@ def main():
         bb_rct.move_ip(vx,vy)
         screen.blit(bb_img,bb_rct)
         pg.display.update()
-        tmr += 100
+        tmr += 100  #爆弾を早くするために100にする
         clock.tick(10)
 
 
