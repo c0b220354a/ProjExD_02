@@ -32,6 +32,8 @@ def main():
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
+    kk_img2=pg.image.load("ex02/fig/8.png")
+    kk_img2 = pg.transform.rotozoom(kk_img2, 0, 2.0)
     kk_img_f=pg.transform.flip(kk_img,True,False)
     kk_imgs = {(+5,0):kk_img_f,  # 右方向のこうかとん
                (+5,-5):pg.transform.rotozoom(kk_img_f,45,1.0),  #右上方向のこうかとん
@@ -60,6 +62,8 @@ def main():
                 return
 
         if kk_rct.colliderect(bb_rct):
+            screen.blit(kk_img2,kk_rct)
+            pg.display.update()
             print("Game Over")
             return
         
@@ -97,7 +101,7 @@ def main():
 
         if not tate:
             vy *= -1
-            
+
         bb_rct.move_ip(vx,vy)
         screen.blit(bb_img,bb_rct)
         pg.display.update()
