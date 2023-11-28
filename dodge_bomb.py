@@ -1,8 +1,6 @@
 import sys
 import random
 import pygame as pg
-import time
-
 
 WIDTH, HEIGHT = 1600, 900
 
@@ -47,16 +45,16 @@ def main():
                }
     kk_img=kk_imgs[+5,0]
     bb_imags=[]
-    for r in range(1,11):
-        bb_img = pg.Surface((20*r,20*r))  # 練習1:透明なSurfaceを作る
-        bb_img.set_colorkey((0,0,0))
-        pg.draw.circle(bb_img,(255,0,0),(10*r,10*r),10)  #練習1:透明なSurfaceの中に赤い円を作る
-        bb_imags.append(bb_img)
+    bb_img = pg.Surface((20,20))  # 練習1:透明なSurfaceを作る
+    bb_img.set_colorkey((0,0,0))
+    pg.draw.circle(bb_img,(255,0,0),(10,10),10)  #練習1:透明なSurfaceの中に赤い円を作る
+    bb_imags.append(bb_img)
     bb_rct = bb_img.get_rect()  # 練習1: 爆弾surfaceを抽出
     kk_rct = kk_img.get_rect()  # 練習3: 工科とんを抽出
     kk_rct.center= 900,400
     bb_rct.centerx = random.randint(0,WIDTH)
     bb_rct.centery = random.randint(0,HEIGHT)
+    accs = [a for a in range(1,11)]
     vx,vy = +5,-5
     clock = pg.time.Clock()
     tmr = 0
@@ -69,7 +67,6 @@ def main():
             screen.blit(kk_img2,kk_rct)
             pg.display.update()
             print("Game Over")
-            time.sleep(2)
             return
         
         key_lst=pg.key.get_pressed()
@@ -92,16 +89,15 @@ def main():
             kk_img = kk_imgs[kk_0, kk_1]  # kk_imgに切り替える画像を代入
 
         screen.blit(kk_img, kk_rct)
-        bb_img = bb_imags[min(tmr//500,9)]
         screen.blit(bg_img, [0, 0])
-        print(bb_img)
         kk_rct.move_ip(sum_mv[0],sum_mv[1])
 
         if check_bound(kk_rct) != (True,True):
             kk_rct.move_ip(-sum_mv[0],-sum_mv[1])
 
+        avx,avy=vx*accs[min(tmr//500,9)],vy*accs[min(tmr//500,9)]
         screen.blit(kk_img,kk_rct)  #練習3: 工科トンの移動
-        bb_rct.move_ip(vx,vy)  #練習2 爆弾を移動させる
+        bb_rct.move_ip(avx,avy)  #練習2 爆弾を移動させる
         yoko,tate = check_bound(bb_rct)
         if not yoko:  # 横方向にはみ出たら
             vx *= -1
@@ -112,7 +108,7 @@ def main():
         bb_rct.move_ip(vx,vy)
         screen.blit(bb_img,bb_rct)
         pg.display.update()
-        tmr += 1
+        tmr += 100
         clock.tick(10)
 
 
