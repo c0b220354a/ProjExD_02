@@ -5,6 +5,13 @@ import pygame as pg
 
 WIDTH, HEIGHT = 1600, 900
 
+delta={
+    pg.K_UP:(0,-5),
+    pg.K_DOWN:(0,+5),
+    pg.K_LEFT:(-5,0),
+    pg.K_RIGHT:(+5,0), 
+}  #練習3:キーリストを作成
+
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -16,6 +23,8 @@ def main():
     bb_img.set_colorkey((0,0,0))
     pg.draw.circle(bb_img,(255,0,0),(10,10),10)  #練習1:透明なSurfaceの中に赤い円を作る
     bb_rct=bb_img.get_rect()  # 練習1: 爆弾surfaceを抽出
+    kk_rct=kk_img.get_rect()  # 練習3: 工科とんを抽出
+    kk_rct.center= 900,400
     bb_rct.centerx = random.randint(0,WIDTH)
     bb_rct.centery = random.randint(0,HEIGHT)
     vx,vy=+5,-5
@@ -26,9 +35,16 @@ def main():
             if event.type == pg.QUIT: 
                 return
 
+        key_lst=pg.key.get_pressed()
+        sum_mv=[0,0]
+        for k,tpl in delta.items():
+            if key_lst[k]:  #練習3　キーが押されたら
+                sum_mv[0]+=tpl[0]
+                sum_mv[1]+=tpl[1]
         screen.blit(bg_img, [0, 0])
-        screen.blit(kk_img, [900, 400])
-        bb_rct.move_ip(vx,vy)
+        kk_rct.move_ip(sum_mv[0],sum_mv[1])
+        screen.blit(kk_img,kk_rct)  #練習3: 工科トンの移動
+        bb_rct.move_ip(vx,vy)  #練習2 爆弾を移動させる
         screen.blit(bb_img,bb_rct)
         pg.display.update()
         tmr += 1
